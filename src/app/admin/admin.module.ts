@@ -5,10 +5,22 @@ import { AuthComponent } from './auth.component';
 import { AdminComponent } from './admin.component';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { ProductTableComponent } from './product-table.component';
+import { ProductEditorComponent } from './product-editor.component';
+import { OrderTableComponent } from './order-table.component';
 
 const routing = RouterModule.forChild([
     { path: 'auth', component: AuthComponent },
-    { path: 'main', component: AdminComponent, canActivate: [AuthGuard] },
+    {
+        path: 'main', component: AdminComponent, canActivate: [AuthGuard],
+        children: [
+            { path: 'products/:mode/:id', component: ProductEditorComponent },
+            { path: 'products/:mode', component: ProductEditorComponent },
+            { path: 'products', component: ProductTableComponent },
+            { path: 'orders', component: OrderTableComponent },
+            { path: '**', redirectTo: 'products' }
+        ]
+    },
     { path: '**', redirectTo: 'auth' },
 ]);
 
@@ -23,7 +35,10 @@ const routing = RouterModule.forChild([
     ],
     declarations: [
         AuthComponent,
-        AdminComponent
+        AdminComponent,
+        ProductTableComponent,
+        ProductEditorComponent,
+        OrderTableComponent
     ]
 })
 export class AdminModule {}
