@@ -25,6 +25,7 @@ export class OrderRepository {
     }
 
     saveOrder(order: Order): Observable<Order> {
+        this.orders.push(order);
         return this.dataSource.saveOrder(order);
     }
 
